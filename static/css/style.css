@@ -1,0 +1,181 @@
+body {
+  display: flex;
+  font-family: Arial, sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+}
+
+.form-box {
+  width: 520px;
+  background: #fff;
+  border: 1px solid;
+  border-radius: 12px;
+  padding: 30px 50px;
+}
+
+.form-box-add {
+  position: static;
+  width: 280px;
+  background: #fff;
+  border: 1px solid;
+  border-radius: 12px;
+  padding: 20px;
+  padding-right: 70px;
+}
+
+h2 {
+  text-align: center;
+  margin-top: 0;
+  margin-bottom: 25px;
+  
+}
+
+.form-group {
+  display: flex;
+  margin-bottom: 10px;
+  flex-wrap: wrap;
+  padding-top: 7px;
+}
+
+label {
+  display: inline-block;
+  width: 135px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+label.gender {
+  margin-bottom: 0px;
+}
+
+input[type="text"],
+select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  margin-right: 10px;
+}
+
+.radio-group,
+.checkbox-group {
+  font-size: 14px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 18px;
+  padding-left: 20px;
+}
+
+.radio-group label,
+.checkbox-group label {
+  display: inline-block;
+  font-weight: normal;
+}
+
+.submit-btn {
+  background: #2f80ed;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 10px 22px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.submit-wrap {
+  display: flex;
+  text-align: center;
+  justify-content: center;
+  margin-top: 20px;
+  gap:  40px;
+}
+
+.add-btn {
+  background: #2f80ed;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 5px 10px;
+  font-size: 10px;
+  cursor: pointer;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+button:hover {
+  background: #1d68c8;
+}
+
+.error {
+  color: red;
+  margin: 0;
+}
+
+.form-group-2 {
+  position: relative;
+  margin-bottom: 15px;
+  box-sizing: border-box;
+}
+
+.form-group-2 .add-btn {
+  position: absolute;
+  left: 100%;
+  margin-left: 5px;
+  top: 35px;
+  
+}
+
+.added-role {
+  display: block;
+  margin-top: 8px;
+  font-size: 13px;
+}
+
+.required {
+  color: red;
+  font-weight: bold;
+}
+
+
+.remove-btn {
+  margin-left: 6px;
+  margin-right: 5px;
+  padding: 0 5px;
+  color: #fff;
+  background: #e74c3c;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.remove-btn:hover {
+  background: #c0392b;
+}
+
+#toast {
+  visibility: hidden;
+  position: fixed;
+  bottom: 30px;
+  left: 40%;
+  background: #3be34c;
+  color: #fff;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-size: 14px;
+  opacity: 0;
+  z-index: 1000;
+}
+
+#toast.show {
+  visibility: visible;
+  opacity: 1;
+}
+
+.sport-label {
+  font-weight: normal;
+  font-size: 12px;
+  margin-top: 5px;
+  margin-bottom: 0px;
+}
