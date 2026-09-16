@@ -1,0 +1,206 @@
+import { showError, clearError } from "../../../shared/ui/errorView.js";
+import {showToast} from "../../../shared/ui/toastView.js";
+import { MESSAGES } from "../constants/message.js";
+/* lớp view của form personal info
+    trong constructor khởi tạo các phần tử DOM của form 
+    và các phần tử hiển thị lỗi */
+export class PersonalInfoFormView {
+  constructor() {
+    this.form = document.getElementById('submit-form')
+    this.firstNameInput = document.getElementById('first-name')
+    this.lastNameInput = document.getElementById('last-name')
+    this.maleRadio = document.getElementById('male-radio')
+    this.femaleRadio = document.getElementById('female-radio')
+    this.roleSelect = document.getElementById('role-select')
+    this.addSportInput = document.getElementById('add-sport-input')
+    this.addRoleInput = document.getElementById('add-role-input')
+    this.addSportButton = document.getElementById('add-sport-button')
+    this.addRoleButton = document.getElementById('add-role-button')
+    this.submitButton = document.getElementById('submit-button')
+    this.checkboxGroup = document.getElementById('checkbox-group')
+    this.roleFormGroup = document.getElementById('role-form-group')
+    this.output = document.getElementById("output");
+    this.errorElements = {
+      firstName: document.getElementById("first-name-error"),
+      lastName: document.getElementById("last-name-error"),
+      favoriteSports: document.getElementById("sports-error"),
+      role: document.getElementById("duplicate-role-error"),
+      sport: document.getElementById("duplicate-sport-error")
+    }
+  }
+
+  /* hàm lấy dữ liệu từ form thông qua các phần tử DOM 
+  và trả về một object chứa dữ liệu form*/
+  getFormData() {
+    const selectedSports = Array.from(
+      document.querySelectorAll('input[name="sports"]:checked')
+    ).map(checkbox => checkbox.value)
+
+    return {
+      firstName: this.firstNameInput.value,
+      lastName: this.lastNameInput.value,
+      gender: this.maleRadio.checked ? 'male' : 'female',
+      role: this.roleSelect.value,
+      favoriteSports: selectedSports
+    };
+
+  }
+
+  /* hàm nhận input là object errors chứa các trường lỗi và nội dung lỗi
+        duyệt qua các cặp key-value trường lỗi và nội dung lỗi của object errors
+        nếu trường lỗi tồn tại trong errorElements và có nội dung lỗi thì hiển thị lỗi bằng hàm showError
+        nếu không có nội dung lỗi thì xóa lỗi bằng hàm clearError
+     hiển thị lỗi tương ứng cho từng trường trong form */
+  showValidationErrors(errors) {
+    for (const [fieldName, message] of Object.entries(errors)) {
+      const errorElement = this.errorElements[fieldName];
+
+      if (!errorElement) {
+        continue;
+      }
+
+      if (message) {
+        showError(errorElement, message);
+      } else {
+        clearError(errorElement);
+      }
+    }
+  }
+  /* hàm duyệt qua tất cả element hiển thị lỗi và gọi hàm xóa lỗi cho từng element */
+  clearValidationErrors() {
+    Object.values(this.errorElements).forEach((errorElement) => {
+      clearError(errorElement);
+    });
+  }
+
+  /* hàm tạo nút xóa 
+      nhận input là hàm removeHandler để xử lý sự kiện khi nhấn nút xóa
+      tạo phần tử button với nội dung "x" và class "remove-btn"
+      gán sự kiện click cho button để gọi hàm removeHandler
+      trả về button */
+  createRemoveButton(removeHandler) {
+  const button = document.createElement("button");
+  button.type = "button";
+  button.textContent = "x";
+  button.className = "remove-btn";
+  button.addEventListener("click", removeHandler);
+
+  return button;
+  }
+
+  /* hàm lấy danh sách sport hiện có trong form
+        duyệt qua các checkbox có name là "sports" và trả về mảng chứa các 
+        giá trị của các checkbox đó*/
+  getSportValues() {
+    return Array.from(
+      this.checkboxGroup.querySelectorAll('input[name="sports"]')
+    ).map((checkbox) => checkbox.value);
+  }
+
+  /* hàm nhận input là object chứa tên và giá trị của sport mới
+        tạo phần tử label và checkbox mới với giá trị và tên tương ứng
+        tạo nút xóa cho sport mới và gán sự kiện xóa cho nút đó
+        thêm label chứa checkbox, tên sport và nút xóa vào checkboxGroup
+        xóa giá trị trong input thêm sport */
+  updateSport({ name, value }) {
+    const sportLabel = document.createElement('label');
+    const sportCheckbox = document.createElement('input');
+
+    sportCheckbox.className = 'added-sport';
+    sportCheckbox.type = 'checkbox';
+    sportCheckbox.name = 'sports';
+    sportCheckbox.value = value;
+    sportCheckbox.checked = true;
+
+    const removeButton = this.createRemoveButton(() => {
+      sportLabel.remove()
+    });
+
+    sportLabel.append(sportCheckbox, name, removeButton);
+    this.checkboxGroup.appendChild(sportLabel);
+    this.addSportInput.value = "";
+  }
+
+  /* hàm lấy danh sách role hiện có trong form
+        duyệt qua các option trong select role và trả về mảng chứa các 
+        giá trị của các option đó*/
+  getRoleValues() {
+    return Array.from(this.roleSelect.options).map((option) => option.value);
+  }
+
+  /* hàm nhận input là object chứa tên và giá trị của role mới
+        tạo phần tử option mới với giá trị và tên tương ứng
+        tạo phần tử span với class name "added-role" 
+        tạo nút xóa với sự kiện xóa option và span khi nhấn nút xóa
+        span chứa tên role và nút xóa
+        thêm role mới vào role select trong form */
+  updateRole({ name, value }) {
+    const option = document.createElement("option");
+    option.textContent = name;
+    option.value = value;
+    option.selected = true;
+
+    this.roleSelect.add(option);
+
+    const roleItem = document.createElement('span')
+    roleItem.className = 'added-role'
+
+    const removeButton = this.createRemoveButton(() => {
+      roleItem.remove()
+      option.remove()
+    })
+
+    roleItem.append(name, removeButton)
+    this.roleFormGroup.appendChild(roleItem)
+
+    this.addRoleInput.value = "";
+  }
+
+  /* hàm nhận input là object personalInfo chứa thông tin cá nhân đã được validate và chuẩn hóa
+        xóa nội dung trong output
+        tạo các phần tử DOM để hiển thị thông tin cá nhân
+        thêm các phần tử DOM vào output
+        reset form */
+  showPersonalInfo(personalInfo) {
+    this.output.replaceChildren();
+
+    const title = document.createElement("h3");
+    title.textContent = "Personal information";
+
+    const firstName = document.createElement("p");
+    firstName.textContent = `First name: ${personalInfo.firstName}`;
+
+    const lastName = document.createElement("p");
+    lastName.textContent = `Last name: ${personalInfo.lastName}`;
+
+    const gender = document.createElement("p");
+    gender.textContent = `Gender: ${personalInfo.gender}`;
+
+    const role = document.createElement("p");
+    role.textContent = `Role: ${personalInfo.role}`;
+
+    const favoriteSports = document.createElement("p");
+    favoriteSports.textContent = `Favorite sports: ${personalInfo.favoriteSports.join(", ")}`;
+
+    this.output.append(title, firstName, lastName, gender, role, favoriteSports);
+
+    this.form.reset();
+    this.addRoleInput.value = "";
+    this.addSportInput.value = "";
+    this.clearValidationErrors();
+    showToast(MESSAGES.SUBMIT_SUCCESS);
+  }
+
+  onAddSport(handler) {
+    this.addSportButton.addEventListener('click', handler)
+  }
+
+  onAddRole(handler) {
+    this.addRoleButton.addEventListener('click', handler)
+  }
+
+  onSubmit(handler) {
+    this.form.addEventListener('submit', handler)
+  }
+
+}

@@ -1,7 +1,6 @@
 body {
   display: flex;
   font-family: Arial, sans-serif;
-  display: flex;
   justify-content: center;
   align-items: center;
   gap: 20px;
@@ -15,8 +14,8 @@ body {
   padding: 30px 50px;
 }
 
-.form-box-add {
-  position: static;
+.box-add {
+  margin-top: 20px;
   width: 280px;
   background: #fff;
   border: 1px solid;
@@ -97,11 +96,11 @@ select {
   color: #fff;
   border: none;
   border-radius: 6px;
-  padding: 5px 10px;
+  padding: 10px 15px;
   font-size: 10px;
   cursor: pointer;
   white-space: nowrap;
-  flex-shrink: 0;
+  flex-shrink: 0; 
 }
 
 button:hover {
@@ -123,7 +122,7 @@ button:hover {
   position: absolute;
   left: 100%;
   margin-left: 5px;
-  top: 35px;
+  top: 30px;
   
 }
 
@@ -178,4 +177,16 @@ button:hover {
   font-size: 12px;
   margin-top: 5px;
   margin-bottom: 0px;
+}
+
+#output {
+  min-height: 180px;
+}
+
+#output h3 {
+  margin-top: 0;
+}
+
+#output p {
+  margin: 8px 0;
 }
