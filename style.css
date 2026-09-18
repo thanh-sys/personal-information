@@ -125,31 +125,10 @@ button:hover {
   
 }
 
-.added-role {
-  display: block;
-  margin-top: 8px;
-  font-size: 13px;
-}
 
 .required {
   color: red;
   font-weight: bold;
-}
-
-
-.remove-btn {
-  margin-left: 6px;
-  margin-right: 5px;
-  padding: 0 5px;
-  color: #fff;
-  background: #e74c3c;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-.remove-btn:hover {
-  background: #c0392b;
 }
 
 #toast {

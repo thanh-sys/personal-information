@@ -6,17 +6,17 @@ import { MESSAGES } from "../constants/message.js";
     và các phần tử hiển thị lỗi */
 export class PersonalInfoFormView {
   constructor() {
-    this.form = document.getElementById('submit-form')
-    this.firstNameInput = document.getElementById('first-name')
-    this.lastNameInput = document.getElementById('last-name')
-    this.maleRadio = document.getElementById('male-radio')
-    this.roleSelect = document.getElementById('role-select')
-    this.addSportInput = document.getElementById('add-sport-input')
-    this.addRoleInput = document.getElementById('add-role-input')
-    this.addSportButton = document.getElementById('add-sport-button')
-    this.addRoleButton = document.getElementById('add-role-button')
-    this.checkboxGroup = document.getElementById('checkbox-group')
-    this.roleFormGroup = document.getElementById('role-form-group')
+    this.form = document.getElementById('submit-form');
+    this.firstNameInput = document.getElementById('first-name');
+    this.lastNameInput = document.getElementById('last-name');
+    this.maleRadio = document.getElementById('male-radio');
+    this.roleSelect = document.getElementById('role-select');
+    this.addSportInput = document.getElementById('add-sport-input');
+    this.addRoleInput = document.getElementById('add-role-input');
+    this.addSportButton = document.getElementById('add-sport-button');
+    this.addRoleButton = document.getElementById('add-role-button');
+    this.checkboxGroup = document.getElementById('checkbox-group');
+    this.roleFormGroup = document.getElementById('role-form-group');
     this.output = document.getElementById("output");
     this.errorElements = {
       firstName: document.getElementById("first-name-error"),
@@ -24,7 +24,7 @@ export class PersonalInfoFormView {
       favoriteSports: document.getElementById("sports-error"),
       role: document.getElementById("duplicate-role-error"),
       sport: document.getElementById("duplicate-sport-error")
-    }
+    };
   }
 
   /* hàm lấy dữ liệu từ form thông qua các phần tử DOM 
@@ -55,57 +55,36 @@ export class PersonalInfoFormView {
       }
     }
   }
+
   /* hàm duyệt qua tất cả element hiển thị lỗi và gọi hàm xóa lỗi cho từng element */
   clearValidationErrors() {
     for (const errorElement of Object.values(this.errorElements)) {
       clearError(errorElement);
-  }
-  }
-
-  /* hàm tạo nút xóa 
-      nhận input là hàm removeHandler để xử lý sự kiện khi nhấn nút xóa
-      tạo phần tử button với nội dung "x" và class "remove-btn"
-      gán sự kiện click cho button để gọi hàm removeHandler
-      trả về button */
-  createRemoveButton(removeHandler) {
-  const button = document.createElement("button");
-  button.type = "button";
-  button.textContent = "x";
-  button.className = "remove-btn";
-  button.addEventListener("click", removeHandler);
-
-  return button;
+    }
   }
 
   /* hàm lấy danh sách sport hiện có trong form
         duyệt qua các checkbox có name là "sports" và trả về mảng chứa các 
         giá trị của các checkbox đó*/
   getSportValues() {
-    return Array.from(
-      this.checkboxGroup.querySelectorAll('input[name="sports"]')
-    ).map((checkbox) => checkbox.value);
+    return Array.from(this.checkboxGroup.querySelectorAll('input[name="sports"]'))
+    .map((checkbox) => checkbox.value);
   }
 
   /* hàm nhận input là object chứa tên và giá trị của sport mới
         tạo phần tử label và checkbox mới với giá trị và tên tương ứng
-        tạo nút xóa cho sport mới và gán sự kiện xóa cho nút đó
-        thêm label chứa checkbox, tên sport và nút xóa vào checkboxGroup
+        thêm label chứa checkbox, tên sport vào checkboxGroup
         xóa giá trị trong input thêm sport */
   updateSport({ name, value }) {
     const sportLabel = document.createElement('label');
     const sportCheckbox = document.createElement('input');
 
-    sportCheckbox.className = 'added-sport';
     sportCheckbox.type = 'checkbox';
     sportCheckbox.name = 'sports';
     sportCheckbox.value = value;
     sportCheckbox.checked = true;
 
-    const removeButton = this.createRemoveButton(() => {
-      sportLabel.remove()
-    });
-
-    sportLabel.append(sportCheckbox, name, removeButton);
+    sportLabel.append(sportCheckbox, name);
     this.checkboxGroup.appendChild(sportLabel);
     this.addSportInput.value = "";
   }
@@ -119,9 +98,6 @@ export class PersonalInfoFormView {
 
   /* hàm nhận input là object chứa tên và giá trị của role mới
         tạo phần tử option mới với giá trị và tên tương ứng
-        tạo phần tử span với class name "added-role" 
-        tạo nút xóa với sự kiện xóa option và span khi nhấn nút xóa
-        span chứa tên role và nút xóa
         thêm role mới vào role select trong form */
   updateRole({ name, value }) {
     const option = document.createElement("option");
@@ -130,18 +106,6 @@ export class PersonalInfoFormView {
     option.selected = true;
 
     this.roleSelect.add(option);
-
-    const roleItem = document.createElement('span')
-    roleItem.className = 'added-role'
-
-    const removeButton = this.createRemoveButton(() => {
-      roleItem.remove()
-      option.remove()
-    })
-
-    roleItem.append(name, removeButton)
-    this.roleFormGroup.appendChild(roleItem)
-
     this.addRoleInput.value = "";
   }
 
@@ -177,14 +141,14 @@ export class PersonalInfoFormView {
   }
 
   onAddSport(handler) {
-    this.addSportButton.addEventListener('click', handler)
+    this.addSportButton.addEventListener('click', handler);
   }
 
   onAddRole(handler) {
-    this.addRoleButton.addEventListener('click', handler)
+    this.addRoleButton.addEventListener('click', handler);
   }
 
   onSubmit(handler) {
-    this.form.addEventListener('submit', handler)
+    this.form.addEventListener('submit', handler);
   }
 }
