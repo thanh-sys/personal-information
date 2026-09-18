@@ -88,7 +88,6 @@ select {
   text-align: center;
   justify-content: center;
   margin-top: 20px;
-  gap:  40px;
 }
 
 .add-btn {
@@ -170,13 +169,6 @@ button:hover {
 #toast.show {
   visibility: visible;
   opacity: 1;
-}
-
-.sport-label {
-  font-weight: normal;
-  font-size: 12px;
-  margin-top: 5px;
-  margin-bottom: 0px;
 }
 
 #output {

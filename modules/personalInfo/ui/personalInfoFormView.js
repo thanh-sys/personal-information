@@ -10,13 +10,11 @@ export class PersonalInfoFormView {
     this.firstNameInput = document.getElementById('first-name')
     this.lastNameInput = document.getElementById('last-name')
     this.maleRadio = document.getElementById('male-radio')
-    this.femaleRadio = document.getElementById('female-radio')
     this.roleSelect = document.getElementById('role-select')
     this.addSportInput = document.getElementById('add-sport-input')
     this.addRoleInput = document.getElementById('add-role-input')
     this.addSportButton = document.getElementById('add-sport-button')
     this.addRoleButton = document.getElementById('add-role-button')
-    this.submitButton = document.getElementById('submit-button')
     this.checkboxGroup = document.getElementById('checkbox-group')
     this.roleFormGroup = document.getElementById('role-form-group')
     this.output = document.getElementById("output");
@@ -32,18 +30,13 @@ export class PersonalInfoFormView {
   /* hàm lấy dữ liệu từ form thông qua các phần tử DOM 
   và trả về một object chứa dữ liệu form*/
   getFormData() {
-    const selectedSports = Array.from(
-      document.querySelectorAll('input[name="sports"]:checked')
-    ).map(checkbox => checkbox.value)
-
     return {
       firstName: this.firstNameInput.value,
       lastName: this.lastNameInput.value,
       gender: this.maleRadio.checked ? 'male' : 'female',
       role: this.roleSelect.value,
-      favoriteSports: selectedSports
+      favoriteSports: Array.from(document.querySelectorAll('input[name="sports"]:checked')).map((checkbox) => checkbox.value)
     };
-
   }
 
   /* hàm nhận input là object errors chứa các trường lỗi và nội dung lỗi
@@ -55,10 +48,6 @@ export class PersonalInfoFormView {
     for (const [fieldName, message] of Object.entries(errors)) {
       const errorElement = this.errorElements[fieldName];
 
-      if (!errorElement) {
-        continue;
-      }
-
       if (message) {
         showError(errorElement, message);
       } else {
@@ -68,9 +57,9 @@ export class PersonalInfoFormView {
   }
   /* hàm duyệt qua tất cả element hiển thị lỗi và gọi hàm xóa lỗi cho từng element */
   clearValidationErrors() {
-    Object.values(this.errorElements).forEach((errorElement) => {
+    for (const errorElement of Object.values(this.errorElements)) {
       clearError(errorElement);
-    });
+  }
   }
 
   /* hàm tạo nút xóa 
@@ -167,22 +156,18 @@ export class PersonalInfoFormView {
     const title = document.createElement("h3");
     title.textContent = "Personal information";
 
-    const firstName = document.createElement("p");
-    firstName.textContent = `First name: ${personalInfo.firstName}`;
-
-    const lastName = document.createElement("p");
-    lastName.textContent = `Last name: ${personalInfo.lastName}`;
-
-    const gender = document.createElement("p");
-    gender.textContent = `Gender: ${personalInfo.gender}`;
-
-    const role = document.createElement("p");
-    role.textContent = `Role: ${personalInfo.role}`;
-
-    const favoriteSports = document.createElement("p");
-    favoriteSports.textContent = `Favorite sports: ${personalInfo.favoriteSports.join(", ")}`;
-
-    this.output.append(title, firstName, lastName, gender, role, favoriteSports);
+    const pElements = {"First Name": personalInfo.firstName, "Last Name": personalInfo.lastName, 
+      "Gender": personalInfo.gender, 
+      "Role": personalInfo.role, 
+      "Favorite Sports": personalInfo.favoriteSports.join(", ")
+    };
+    
+    this.output.append(title);
+    for (const personalInfoKey in pElements) {
+      const p = document.createElement("p");
+      p.textContent = `${personalInfoKey}: ${pElements[personalInfoKey]}`;
+      this.output.append(p);
+    }
 
     this.form.reset();
     this.addRoleInput.value = "";
@@ -202,5 +187,4 @@ export class PersonalInfoFormView {
   onSubmit(handler) {
     this.form.addEventListener('submit', handler)
   }
-
 }

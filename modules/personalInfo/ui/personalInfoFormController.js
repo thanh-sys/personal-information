@@ -8,7 +8,6 @@ import { addItem, submitPersonalInfo } from "../application/personalInfoService.
 export class PersonalInfoFormController {
   constructor() {
     this.view = new PersonalInfoFormView();
-
     this.init();
   }
 

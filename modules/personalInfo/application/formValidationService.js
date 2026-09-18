@@ -4,20 +4,20 @@
       trong đó fieldName là tên trường dữ liệu không hợp lệ, message là thông báo lỗi tương ứng */
 export function formValidate(rules) {
   const errors = {};
-  let isValid = true;
+
   for (const rule of rules) {
     if (rule.isValid && !errors[rule.fieldName]) {
         errors[rule.fieldName] = null;
       continue;
     }
-    isValid = false;
+
     if (!errors[rule.fieldName]) {
       errors[rule.fieldName] = rule.message;
     }
   }
 
   return {
-    isValid: isValid,
+    isValid: !Object.values(errors).some((v) => v),
     errors
   };
 }

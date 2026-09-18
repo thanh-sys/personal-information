@@ -3,12 +3,11 @@ import { MESSAGES } from "../constants/message.js";
 import { createPersonalInfoRules } from "../domain/personalInfoValidation.js";
 import { formValidate } from "./formValidationService.js";
 
-
 /* hàm nhận input là tên item mới và danh sách item hiện có và loại item (sport hoặc role)
       nếu tên item rỗng thì trả về null
       nếu tên item đã tồn tại trong danh sách thì trả về nội dung lỗi và loại item là null
       nếu tên item hợp lệ và chưa tồn tại trong danh sách thì trả về nội dung lỗi null và loại item là object { name, value }
-      trong đó name là tên item đã được viết hoa chữ cái đầu của mỗi từ, value là tên item viết thường */
+      trong đó name là tên item đã được xóa khoảng trắng đầu cuối, value là tên item viết thường */
 export function addItem(itemName, existingItems, itemType) {
   if (!itemName.trim()) {
     return { [itemType]: null, error: null };
@@ -31,7 +30,6 @@ export function addItem(itemName, existingItems, itemType) {
     nếu validationResult false thì trả về lỗi các trường lỗi và nội dung lỗi
     ngược lại thì trả về thông tin cá nhân đã được validate và viết hoa chữ cái đầu của firstName và lastName */
 export function submitPersonalInfo( inputData ) {
-
   const rules = createPersonalInfoRules({
     firstNameInput: inputData.firstName,
     lastNameInput: inputData.lastName,
